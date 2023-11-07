@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import Tile from './Tile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
 
 function App() {
   const generateRandomNumbers = (): Array<string | number> => {
@@ -77,7 +79,10 @@ function App() {
         <div className="game-board">
           {renderTiles()}
         </div>
-        <button onClick={resetGame}>Restart</button>
+        <button onClick={resetGame}>
+          <FontAwesomeIcon icon={faRedo} className="icon" />
+          <span className="text">Restart</span>
+        </button>
       </header>
     </div>
   );

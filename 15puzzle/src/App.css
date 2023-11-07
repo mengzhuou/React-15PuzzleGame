@@ -41,17 +41,31 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Assuming a 4x4 grid */
 }
-
 button {
   padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
+  background-color: transparent; /* Set the background to transparent */
+  color: #3498db; /* Set the text color */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 20px;
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Align icon and text in a column */
+  align-items: center; /* Center the items horizontally */
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: transparent; /* Set the background to transparent on hover */
+  color: #2980b9; /* Change the text color on hover */
+}
+
+/* Style the icon */
+button .icon {
+  margin-bottom: 5px;
+  color: #693434;
+}
+
+.text{
+  color: #693434;
+  font-weight: bolder;
 }
