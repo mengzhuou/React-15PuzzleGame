@@ -77,6 +77,7 @@ function App() {
         <div className="game-board">
           {renderTiles()}
         </div>
+        <button onClick={resetGame}>Restart</button>
       </header>
     </div>
   );
