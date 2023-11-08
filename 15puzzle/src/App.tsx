@@ -19,6 +19,27 @@ function App() {
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
   
+  const handleTileClick = (clickedIndex: number) => {
+    console.log("clickedIndex",clickedIndex)
+    const zeroIndex = tiles.indexOf(''); // Find the index of the empty string
+  
+    if (zeroIndex === -1) {
+      return; // Return if the empty tile index is not found
+    }
+    
+    const rowLength = 4; // Assuming it's a 4x4 grid
+    //11+4 = 15, 
+    const isAdjacent = (clickedIndex + rowLength === zeroIndex || 
+      clickedIndex - rowLength === zeroIndex ||
+      clickedIndex + 1 === zeroIndex || 
+      clickedIndex - 1 === zeroIndex);
+    console.log("isAdjacent",isAdjacent);
+    if (isAdjacent) {
+      console.log("inside");
+      
+      swap(clickedIndex, zeroIndex); // Call the swap function
+    }
+  };
 
   const renderTiles = () => {
     return tiles.map((tile, index) => (
@@ -27,42 +48,9 @@ function App() {
         number={tile}
         onClick={() => handleTileClick(index)}
       />
-    ))
-  }
-
-  
-  // const handleTileClick = (clickedIndex: number) => {
-  //   const newTiles = [...tiles];
-  //   const emptyIndex = newTiles.indexOf('');
-  
-  //   if (typeof newTiles[clickedIndex] === 'number' && typeof emptyIndex === 'number') {
-  //     const clickedTile = newTiles[clickedIndex] as number;
-  //     const emptyTileIndex = emptyIndex as number;
-  
-  //     if (
-  //       (clickedIndex % 4 === emptyTileIndex % 4 && Math.abs(clickedIndex - emptyTileIndex) === 1) ||
-  //       (Math.floor(clickedIndex / 4) === Math.floor(emptyTileIndex / 4) && Math.abs(clickedIndex - emptyTileIndex) === 4)
-  //     ) {
-  //       const tempTile = newTiles[clickedIndex];
-  //       newTiles[clickedIndex] = newTiles[emptyIndex];
-  //       newTiles[emptyIndex] = tempTile;
-  //       setTiles(newTiles);
-  //     }
-  //   }
-  // };
-
-  const handleTileClick = (clickedIndex: number) => {
-    let zeroIndex = tiles.indexOf(0);
-    let valIndex = tiles.indexOf(clickedIndex);
-
-    if (valIndex + 4 === zeroIndex || valIndex - 4 === zeroIndex){
-      swap(valIndex, zeroIndex);
-    } else if (valIndex + 1 === zeroIndex) {
-      swap(valIndex, zeroIndex);
-    } else if (valIndex - 1 === zeroIndex){
-      swap(valIndex, zeroIndex);
-    }
+    ));
   };
+  
 
   const isSolved = () => {
     const winState = Array.from({ length: 15 }, (_, index) => index + 1);
@@ -74,7 +62,7 @@ function App() {
   const swap = (valIndex: number, zeroIndex: number) => {
     let tempArr = [...tiles];
     tempArr[zeroIndex] = tiles[valIndex];
-    tempArr[valIndex] = 0;
+    tempArr[valIndex] = '';
     setTiles(tempArr);
   }
   
