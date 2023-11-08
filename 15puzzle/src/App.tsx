@@ -31,23 +31,36 @@ function App() {
   }
 
   
+  // const handleTileClick = (clickedIndex: number) => {
+  //   const newTiles = [...tiles];
+  //   const emptyIndex = newTiles.indexOf('');
+  
+  //   if (typeof newTiles[clickedIndex] === 'number' && typeof emptyIndex === 'number') {
+  //     const clickedTile = newTiles[clickedIndex] as number;
+  //     const emptyTileIndex = emptyIndex as number;
+  
+  //     if (
+  //       (clickedIndex % 4 === emptyTileIndex % 4 && Math.abs(clickedIndex - emptyTileIndex) === 1) ||
+  //       (Math.floor(clickedIndex / 4) === Math.floor(emptyTileIndex / 4) && Math.abs(clickedIndex - emptyTileIndex) === 4)
+  //     ) {
+  //       const tempTile = newTiles[clickedIndex];
+  //       newTiles[clickedIndex] = newTiles[emptyIndex];
+  //       newTiles[emptyIndex] = tempTile;
+  //       setTiles(newTiles);
+  //     }
+  //   }
+  // };
+
   const handleTileClick = (clickedIndex: number) => {
-    const newTiles = [...tiles];
-    const emptyIndex = newTiles.indexOf('');
-  
-    if (typeof newTiles[clickedIndex] === 'number' && typeof emptyIndex === 'number') {
-      const clickedTile = newTiles[clickedIndex] as number;
-      const emptyTileIndex = emptyIndex as number;
-  
-      if (
-        (clickedIndex % 4 === emptyTileIndex % 4 && Math.abs(clickedIndex - emptyTileIndex) === 1) ||
-        (Math.floor(clickedIndex / 4) === Math.floor(emptyTileIndex / 4) && Math.abs(clickedIndex - emptyTileIndex) === 4)
-      ) {
-        const tempTile = newTiles[clickedIndex];
-        newTiles[clickedIndex] = newTiles[emptyIndex];
-        newTiles[emptyIndex] = tempTile;
-        setTiles(newTiles);
-      }
+    let zeroIndex = tiles.indexOf(0);
+    let valIndex = tiles.indexOf(clickedIndex);
+
+    if (valIndex + 4 === zeroIndex || valIndex - 4 === zeroIndex){
+      swap(valIndex, zeroIndex);
+    } else if (valIndex + 1 === zeroIndex) {
+      swap(valIndex, zeroIndex);
+    } else if (valIndex - 1 === zeroIndex){
+      swap(valIndex, zeroIndex);
     }
   };
 
@@ -58,12 +71,12 @@ function App() {
   };
   
   
-  const shuffleTiles = () => {
-    for (let i = 0; i < 1000; i++) {
-      const randomIndex = Math.floor(Math.random() * 16);
-      
-    }
-  };
+  const swap = (valIndex: number, zeroIndex: number) => {
+    let tempArr = [...tiles];
+    tempArr[zeroIndex] = tiles[valIndex];
+    tempArr[valIndex] = 0;
+    setTiles(tempArr);
+  }
   
   const resetGame = () => {
     setTiles(initialTiles);
