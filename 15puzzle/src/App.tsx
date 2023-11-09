@@ -16,11 +16,14 @@ function App() {
     return randomTiles;
   };
   const initialTiles: Array<string | number> = generateRandomNumbers(); // Define the type for initialTiles
-  const rowLength = 4; // Assuming it's a 4x4 grid
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
+  const [gameOver, setGameOver] = useState(true);
   
+
+  const rowLength = 4; // Assuming it's a 4x4 grid
   const handleTileClick = (clickedIndex: number) => {
+    if (gameOver) return;
     const zeroIndex = tiles.indexOf('');
     const clickedRow = Math.floor(clickedIndex / rowLength);
     const clickedCol = clickedIndex % rowLength;
@@ -95,6 +98,9 @@ function App() {
       }
     }
     setTiles(tempArr);
+    if (isSolved()) {
+      setGameOver(true); // Set game over state if the puzzle is solved
+    }
   }
 
   const renderTiles = () => {
@@ -109,23 +115,29 @@ function App() {
 
   const isSolved = () => {
     const winState = Array.from({ length: 15 }, (_, index) => index + 1);
-    winState.push(0); // Use null to represent the empty slot
+    winState.push(0); 
     return tiles.every((value, index) => value === winState[index]);
   };
   
   
   
   const resetGame = () => {
-    setTiles(initialTiles);
+    setGameOver(false); 
+    setTiles(generateRandomNumbers());
   };
   
   
   
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>15 Puzzle Game</h1>
+    <div className={`App ${gameOver ? 'game-over' : ''}`}>
+      <h1 className='title'>15 Puzzle Game</h1>
+      <div className="App-header">
+        {gameOver && (
+          <div className="game-over-text">
+            <h2>Well Done!</h2>
+          </div>
+        )}
         <div className="game-board">
           {renderTiles()}
         </div>
@@ -133,7 +145,7 @@ function App() {
           <FontAwesomeIcon icon={faRedo} className="icon" />
           <span className="text">Restart</span>
         </button>
-      </header>
+      </div>
     </div>
   );
 }

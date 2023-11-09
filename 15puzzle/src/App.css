@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
 }
@@ -26,6 +30,13 @@
   font-weight: bold;
   text-shadow: #000 1px 0 10px;
   font-family: cursive;
+  
+  transition: width 1s ease, height 1s ease;
+}
+
+.shrink {
+  width: 70px;
+  height: 70px;
 }
 
 .game-board {
@@ -57,4 +68,14 @@ button .icon {
 .text{
   color: #693434;
   font-weight: bolder;
+}
+
+.title {
+  color: #604600;
+  background: black;
+  height: 100%; /* Specify full height */
+  margin: 0; /* Remove default margin */
+  display: flex; /* Use flex to fill the whole height */
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
 }
