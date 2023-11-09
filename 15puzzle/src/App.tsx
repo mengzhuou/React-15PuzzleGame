@@ -16,30 +16,86 @@ function App() {
     return randomTiles;
   };
   const initialTiles: Array<string | number> = generateRandomNumbers(); // Define the type for initialTiles
+  const rowLength = 4; // Assuming it's a 4x4 grid
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
   
   const handleTileClick = (clickedIndex: number) => {
-    console.log("clickedIndex",clickedIndex)
-    const zeroIndex = tiles.indexOf(''); // Find the index of the empty string
-  
-    if (zeroIndex === -1) {
-      return; // Return if the empty tile index is not found
-    }
-    
-    const rowLength = 4; // Assuming it's a 4x4 grid
-    //11+4 = 15, 
-    const isAdjacent = (clickedIndex + rowLength === zeroIndex || 
-      clickedIndex - rowLength === zeroIndex ||
-      clickedIndex + 1 === zeroIndex || 
-      clickedIndex - 1 === zeroIndex);
-    console.log("isAdjacent",isAdjacent);
-    if (isAdjacent) {
-      console.log("inside");
-      
-      swap(clickedIndex, zeroIndex); // Call the swap function
+    const zeroIndex = tiles.indexOf('');
+    const clickedRow = Math.floor(clickedIndex / rowLength);
+    const clickedCol = clickedIndex % rowLength;
+    const zeroRow = Math.floor(zeroIndex / rowLength);
+    const zeroCol = zeroIndex % rowLength;
+
+    if (clickedRow === zeroRow) {
+      let rowArray: any;
+      //empty tile on right of same line
+      if (zeroIndex > clickedIndex){
+        rowArray = tiles.slice(clickedIndex, zeroIndex);
+        rowSwap(rowArray,clickedIndex, zeroIndex);
+      } else {
+        rowArray = tiles.slice(zeroIndex+1, clickedIndex+1);
+        rowSwap(rowArray,clickedIndex, zeroIndex);
+      }
+    } 
+    else if (clickedCol === zeroCol) {
+      let colArray:any;
+      if (zeroIndex > clickedIndex) {
+        colArray = [];
+        for (let i = clickedIndex; i < zeroIndex; i += rowLength) {
+          colArray.push(tiles[i]);
+        }
+        colSwap(colArray, clickedIndex, zeroIndex);
+      } else {
+        colArray = [];
+        for (let i = zeroIndex+rowLength; i <= clickedIndex; i += rowLength) {
+          colArray.push(tiles[i]);
+        }
+        colSwap(colArray, clickedIndex, zeroIndex);
+      }
     }
   };
+
+  const colSwap = (arr: Array<string | number>, clickedIndex: number, zeroIndex: number) => {
+    let tempArr = [...tiles];
+    tempArr[clickedIndex] = tiles[zeroIndex];
+    //empty tile in the bottom
+    if (zeroIndex > clickedIndex){
+      let nextVal = clickedIndex + rowLength;
+      for (let i = 0; i < arr.length; i++){
+        tempArr[nextVal] = arr[i];
+        nextVal+=rowLength;
+      }
+    } else{
+      let nextVal = clickedIndex - rowLength;
+      for (let i = arr.length-1; i >= 0; i--){
+        tempArr[nextVal] = arr[i];
+        nextVal-=rowLength;
+      }
+    }
+    setTiles(tempArr);
+    
+  }
+  
+  const rowSwap = (arr: Array<string | number>, clickedIndex: number, zeroIndex: number) => {
+    let tempArr = [...tiles];
+    
+    tempArr[clickedIndex] = tiles[zeroIndex];
+    if (zeroIndex > clickedIndex){
+      let nextVal = clickedIndex + 1;
+      for (let i = 0; i < arr.length; i++){
+        tempArr[nextVal] = arr[i];
+        nextVal+=1;
+      }
+    } else{
+      let nextVal = clickedIndex - 1;
+      for (let i = arr.length-1; i >= 0; i--){
+        tempArr[nextVal] = arr[i];
+        nextVal-=1;
+      }
+    }
+    setTiles(tempArr);
+  }
 
   const renderTiles = () => {
     return tiles.map((tile, index) => (
@@ -50,7 +106,6 @@ function App() {
       />
     ));
   };
-  
 
   const isSolved = () => {
     const winState = Array.from({ length: 15 }, (_, index) => index + 1);
@@ -59,12 +114,6 @@ function App() {
   };
   
   
-  const swap = (valIndex: number, zeroIndex: number) => {
-    let tempArr = [...tiles];
-    tempArr[zeroIndex] = tiles[valIndex];
-    tempArr[valIndex] = '';
-    setTiles(tempArr);
-  }
   
   const resetGame = () => {
     setTiles(initialTiles);
