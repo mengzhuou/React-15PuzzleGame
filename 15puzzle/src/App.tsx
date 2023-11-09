@@ -151,23 +151,23 @@ function App() {
 
   return (
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
-      <h1 className='title'>15 Puzzle Game</h1>
       <div className="App-header">
-        <div className='topContainer'>
-          <CountingClock gameOver={gameOver} />
-        </div>
+      <h3 className='title'>15 Puzzle Game</h3>
         {gameOver && (
-          <div className="game-over-text">
-            <h2>Well Done!</h2>
-          </div>
+          <p className="gameOverText">Well Done!</p>
         )}
         <div className="game-board">
           {renderTiles()}
         </div>
-        <button onClick={resetGame}>
-          <FontAwesomeIcon icon={faRedo} className="icon" />
-          <span className="text">Restart</span>
-        </button>
+        <div className="action-container">
+          <button onClick={resetGame}>
+            <FontAwesomeIcon icon={faRedo} className="icon" />
+            <span className="text">Restart</span>
+          </button>
+          <div className='timerContainer'>
+            <CountingClock gameOver={gameOver} />
+          </div>
+        </div>
       </div>
     </div>
   );

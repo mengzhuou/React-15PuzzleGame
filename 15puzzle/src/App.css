@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .App {
@@ -11,7 +11,6 @@ body {
   top: 0;
   left: 0;
 }
-
 .App-header {
   background-color: #c0a686;
   min-height: 100vh;
@@ -26,13 +25,6 @@ body {
   background-size: cover; /* Adjust image size to cover the container */
   background-repeat: no-repeat; 
 
-}
-
-.topContainer{
-  border-radius: 25px;
-  background-color: #535454;
-  padding: 0 5px 0 5px;
-  margin: 0 20px 30px 26%;
 }
 
 .tile {
@@ -72,8 +64,8 @@ body {
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 2%;
   position: relative;
-  padding: 15px;
   cursor: default;
   touch-action: none;
   border: none;
@@ -82,13 +74,13 @@ body {
   background-image: url('paper-background.jpg'); /* Add the background image */
   background-size: cover; /* Adjust image size to cover the container */
   background-repeat: no-repeat; /* Prevent the background from repeating */
-  padding: 10px; /* Padding around the game board */
+  padding: 10px;
+  flex: 1;
 }
 
 button {
   padding: 10px 20px;
   background-color: transparent; 
-  color: #3498db; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -115,14 +107,36 @@ button .icon {
 .title {
   color: #604600;
   background: black;
-  height: 100%; /* Specify full height */
   width: 100vw;
-  margin: 0; /* Remove default margin */
-  display: flex; /* Use flex to fill the whole height */
-  align-items: center; /* Center the text vertically */
-  justify-content: center; /* Center the text horizontally */
+  margin: 0; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
 }
 
 .counting-clock{
-  color: #c5bb9e;
+  color: #1c1515;
+  font-weight: bold;
+  font-family: cursive;
+}
+
+.timerContainer {
+  display: flex;
+  border-radius: 25px;
+  margin: 0 20px 0 auto;
+}
+
+.action-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* To create space between Timer and Restart button */
+  width: 100%; /* Allow it to take the full width of the parent */
+}
+
+.gameOverText{
+  margin: 0;
+  font-size: 40px;
+  color: #715801;
+  font-weight: bold;
+  font-family: cursive;
 }
