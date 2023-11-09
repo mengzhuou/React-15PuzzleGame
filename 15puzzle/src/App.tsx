@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Tile from './Tile';
+import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
 
@@ -152,6 +153,9 @@ function App() {
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
       <h1 className='title'>15 Puzzle Game</h1>
       <div className="App-header">
+        <div className='topContainer'>
+          <CountingClock gameOver={gameOver} />
+        </div>
         {gameOver && (
           <div className="game-over-text">
             <h2>Well Done!</h2>

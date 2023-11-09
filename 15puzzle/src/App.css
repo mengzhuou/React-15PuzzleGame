@@ -1,20 +1,38 @@
 body {
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .App {
-  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
 }
 
 .App-header {
   background-color: #c0a686;
   min-height: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-image: url('paper-background.jpg'); /* Add the background image */
+  background-size: cover; /* Adjust image size to cover the container */
+  background-repeat: no-repeat; 
+
+}
+
+.topContainer{
+  border-radius: 25px;
+  background-color: #535454;
+  padding: 0 5px 0 5px;
+  margin: 0 20px 30px 26%;
 }
 
 .tile {
@@ -24,14 +42,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  background-color: #693434;
+  font-size: 40px;
   margin: 5px;
   font-weight: bold;
-  text-shadow: #000 1px 0 10px;
+  color: #5d3b14;
   font-family: cursive;
-  
   transition: width 2s ease, height 2s ease;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+  transform: translate3d(0px, 0px, 0px);
+  background-image: url('paper-background.jpg'); /* Add the background image */
+  background-size: cover; /* Adjust image size to cover the container */
+  background-repeat: no-repeat; /* Prevent the background from repeating */
 }
 
 .shrink {
@@ -41,8 +71,20 @@ body {
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Assuming a 4x4 grid */
+  grid-template-columns: repeat(4, 1fr);
+  position: relative;
+  padding: 15px;
+  cursor: default;
+  touch-action: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, 0.5); /* Soft inner shadow */
+  background-image: url('paper-background.jpg'); /* Add the background image */
+  background-size: cover; /* Adjust image size to cover the container */
+  background-repeat: no-repeat; /* Prevent the background from repeating */
+  padding: 10px; /* Padding around the game board */
 }
+
 button {
   padding: 10px 20px;
   background-color: transparent; 
@@ -52,8 +94,8 @@ button {
   cursor: pointer;
   margin-top: 20px;
   display: flex;
-  flex-direction: column; /* Align icon and text in a column */
-  align-items: center; /* Center the items horizontally */
+  flex-direction: column; 
+  align-items: center;
 }
 
 button:hover {
@@ -74,8 +116,13 @@ button .icon {
   color: #604600;
   background: black;
   height: 100%; /* Specify full height */
+  width: 100vw;
   margin: 0; /* Remove default margin */
   display: flex; /* Use flex to fill the whole height */
   align-items: center; /* Center the text vertically */
   justify-content: center; /* Center the text horizontally */
+}
+
+.counting-clock{
+  color: #c5bb9e;
 }
