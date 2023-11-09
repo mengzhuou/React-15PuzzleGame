@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Tile from './Tile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
 
 function App() {
+  const [gameOver, setGameOver] = useState(false);
   const generateRandomNumbers = (): Array<string | number> => {
     const numbers = new Set<number>(); // Use a Set to store unique numbers
     while (numbers.size < 15) {
@@ -18,10 +19,20 @@ function App() {
   const initialTiles: Array<string | number> = generateRandomNumbers(); // Define the type for initialTiles
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
-  const [gameOver, setGameOver] = useState(true);
-  
+  const [shrink, setShrink] = useState(false);
 
+  const shrinkTiles = (isShrink: boolean) => {
+    setShrink(isShrink);
+  };
+  
   const rowLength = 4; // Assuming it's a 4x4 grid
+  
+  useEffect(() => {
+    if (isSolved()) {
+      setGameOver(true);
+      shrinkTiles(true);
+    }
+  }, [tiles]);
   const handleTileClick = (clickedIndex: number) => {
     if (gameOver) return;
     const zeroIndex = tiles.indexOf('');
@@ -77,7 +88,6 @@ function App() {
       }
     }
     setTiles(tempArr);
-    
   }
   
   const rowSwap = (arr: Array<string | number>, clickedIndex: number, zeroIndex: number) => {
@@ -98,9 +108,7 @@ function App() {
       }
     }
     setTiles(tempArr);
-    if (isSolved()) {
-      setGameOver(true); // Set game over state if the puzzle is solved
-    }
+
   }
 
   const renderTiles = () => {
@@ -109,25 +117,36 @@ function App() {
         key={index}
         number={tile}
         onClick={() => handleTileClick(index)}
+        className={shrink ? "tile shrink" : "tile"} // Apply the "shrink" class conditionally
       />
     ));
   };
 
   const isSolved = () => {
-    const winState = Array.from({ length: 15 }, (_, index) => index + 1);
-    winState.push(0); 
-    return tiles.every((value, index) => value === winState[index]);
+    const numbers = new Set<number>(); // Use a Set to store unique numbers
+    
+    for (let i = 1; i <= 15; i++) {
+      numbers.add(i);
+    }
+
+    const winState: Array<string | number> = Array.from(numbers);
+    winState.push(''); // Add the empty string to represent the empty slot
+
+    console.log("current arr", tiles)
+    console.log("answer arr", winState)
+    const isWin = tiles.every((value, index) => value === winState[index]);
+    console.log("is win?", isWin)
+    if (isWin) {
+      setGameOver(true); // Set game over state if the puzzle is solved
+      return true;
+    }
+    return false; 
   };
-  
-  
   
   const resetGame = () => {
     setGameOver(false); 
     setTiles(generateRandomNumbers());
   };
-  
-  
-  
 
   return (
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
