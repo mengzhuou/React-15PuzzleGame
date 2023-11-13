@@ -161,10 +161,12 @@ function App() {
             <CountingClock gameOver={gameOver} />
           </div>
         </div>
-        <div className="game-board">
-          {renderTiles()}
+        <div className='gameBoardContainer'>
+          <div className="gameBoard">
+            {renderTiles()}
+          </div>
         </div>
-        <div className="action-container">
+        <div className="bottomContainer">
           <button onClick={resetGame}>
             <FontAwesomeIcon icon={faRedo} className="icon" />
             <span className="text">Restart</span>

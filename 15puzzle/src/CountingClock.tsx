@@ -21,7 +21,7 @@ const CountingClock: React.FC<CountingClockProps> = ({ gameOver }) => {
 
   return (
     <div>
-      <p>Time: {seconds} s</p>
+      Time: {seconds} s
     </div>
   );
 };
