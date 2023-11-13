@@ -156,6 +156,11 @@ function App() {
         {gameOver && (
           <p className="gameOverText">Well Done!</p>
         )}
+        <div className='timerContainer'>
+          <div className='timer'>
+            <CountingClock gameOver={gameOver} />
+          </div>
+        </div>
         <div className="game-board">
           {renderTiles()}
         </div>
@@ -164,9 +169,6 @@ function App() {
             <FontAwesomeIcon icon={faRedo} className="icon" />
             <span className="text">Restart</span>
           </button>
-          <div className='timerContainer'>
-            <CountingClock gameOver={gameOver} />
-          </div>
         </div>
       </div>
     </div>

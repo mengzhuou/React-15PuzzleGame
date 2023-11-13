@@ -20,7 +20,7 @@ const CountingClock: React.FC<CountingClockProps> = ({ gameOver }) => {
   }, [gameOver]);
 
   return (
-    <div className="counting-clock">
+    <div>
       <p>Time: {seconds} s</p>
     </div>
   );
