@@ -7,6 +7,8 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
+  
   const generateRandomNumbers = (): Array<string | number> => {
     const numbers = new Set<number>(); // Use a Set to store unique numbers
     while (numbers.size < 15) {
@@ -143,10 +145,11 @@ function App() {
     }
     return false; 
   };
-  
+
   const resetGame = () => {
     setGameOver(false); 
     setTiles(generateRandomNumbers());
+    setResetKey(prevKey => prevKey+1);
   };
 
   return (
@@ -158,7 +161,7 @@ function App() {
         )}
         <div className='timerContainer'>
           <div className='timer'>
-            <CountingClock gameOver={gameOver} />
+            <CountingClock key={resetKey} gameOver={gameOver} />
           </div>
         </div>
         <div className='gameBoardContainer'>

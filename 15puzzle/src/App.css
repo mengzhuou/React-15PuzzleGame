@@ -112,18 +112,6 @@ button .icon {
   font-family: cursive;
 }
 
-@media screen and (max-width: 520px){
-  .timer{
-    padding-left: 10px;
-    border-radius: 5px;
-  } 
-
-  .tile {
-    min-width: 70px;
-    min-height: 70px;
-  }
-}
-
 .gameBoardContainer{
   grid-template-columns: auto auto auto auto;
   display: grid;
@@ -150,4 +138,22 @@ button .icon {
   color: #715801;
   font-weight: bold;
   font-family: cursive;
+}
+
+@media screen and (max-width: 520px){
+  .timer{
+    padding-left: 10px;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+  } 
+
+  .tile {
+    min-width: 70px;
+    min-height: 70px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .gameOverText{
+    font-family: 'Times New Roman', Times, serif;
+  }
 }
