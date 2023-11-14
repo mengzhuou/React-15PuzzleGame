@@ -3,13 +3,14 @@ import React from 'react';
 interface TileProps {
   number: number | string;
   onClick: () => void;
-  className: string; // Add className as a prop
+  className: string; 
+  isEmpty: boolean;
 }
 
-const Tile: React.FC<TileProps> = ({ number, onClick, className }) => {
+const Tile: React.FC<TileProps> = ({ number, onClick, className, isEmpty }) => {
   return (
-    <div className={`tile ${className}`} onClick={onClick}>
-      {number !== '' ? number : ' '}
+    <div className={`tile ${className} ${isEmpty? 'empty' : ''}`} onClick={onClick}>
+      {number !== '' && number}
     </div>
   );
 };

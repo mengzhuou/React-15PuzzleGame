@@ -121,6 +121,7 @@ function App() {
         number={tile}
         onClick={() => handleTileClick(index)}
         className={shrink ? "tile shrink" : "tile"} // Apply the "shrink" class conditionally
+        isEmpty={tile === ''}
       />
     ));
   };
