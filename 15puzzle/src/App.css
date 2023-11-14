@@ -51,7 +51,7 @@ body {
   font-weight: bold;
   z-index: 10;
   transform: translate3d(0px, 0px, 0px);
-  background-image: url('paper-background.jpg'); /* Add the background image */
+  background-image: url('tile-background.jpg'); /* Add the background image */
   background-size: cover; /* Adjust image size to cover the container */
   background-repeat: no-repeat; /* Prevent the background from repeating */
 }
@@ -65,7 +65,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-radius: 5px;
-  box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, 0.5); /* Soft inner shadow */
+  box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, 0.8);
   background-image: url('paper-background.jpg'); /* Add the background image */
   background-size: cover; /* Adjust image size to cover the container */
   background-repeat: no-repeat; /* Prevent the background from repeating */
