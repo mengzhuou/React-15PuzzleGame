@@ -4,6 +4,8 @@ import Tile from './Tile';
 import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
+import db from "./firebase";
+import { collection, onSnapshot } from 'firebase/firestore';
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
@@ -135,11 +137,7 @@ function App() {
 
     const winState: Array<string | number> = Array.from(numbers);
     winState.push(''); // Add the empty string to represent the empty slot
-
-    console.log("current arr", tiles)
-    console.log("answer arr", winState)
     const isWin = tiles.every((value, index) => value === winState[index]);
-    console.log("is win?", isWin)
     if (isWin) {
       setGameOver(true); // Set game over state if the puzzle is solved
       return true;
@@ -152,6 +150,16 @@ function App() {
     setTiles(generateRandomNumbers());
     setResetKey(prevKey => prevKey+1);
   };
+
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  useEffect(
+    () => 
+    //leaderboard is name of the database collection
+    onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
+      console.log(snapshot.docs.map(doc => doc.data()));
+    })
+  );
 
   return (
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
