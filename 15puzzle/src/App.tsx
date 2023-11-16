@@ -39,10 +39,8 @@ function App() {
   
   useEffect(() => {
     if (isSolved()) {
-      // const timerVal: number = timerRecord;
       setGameOver(true);
       shrinkTiles(true);
-      // handleNewRecord(timerVal);
     }
   }, [tiles]);
   const handleTileClick = (clickedIndex: number) => {
@@ -168,14 +166,14 @@ function App() {
     }
   }, [gameOver, timerRecord]);
 
-  useEffect(
-    () => 
-      //leaderboard is name of the database collection
-      onSnapshot(collection(db, "Leaderboard"), (snapshot) =>
-        setLeaderboard(snapshot.docs.map((doc) => doc.data() as DocumentData))
-      ),
-    []
-  );
+  useEffect(() => {
+    // leaderboard is the name of the database collection
+    const unsubscribe = onSnapshot(collection(db, "Leaderboard"), (snapshot) =>
+      setLeaderboard(snapshot.docs.map((doc) => doc.data() as DocumentData))
+    );
+
+    return () => unsubscribe(); // Cleanup on component unmount
+  }, []);
 
   const handleTimerUpdate = (timerValue: number) => {
     setTimerRecord(timerValue);
