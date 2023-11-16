@@ -172,6 +172,7 @@ button .icon {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow-y: auto;
 }
 
 
@@ -203,7 +204,7 @@ table {
 
 thead {
   color: #000000;
-  font-size: 30px;
+  font-size: 22px;
   border-bottom: 2px solid #000000; /* Add a border at the bottom of the thead */
 }
 

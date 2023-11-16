@@ -5,13 +5,14 @@ import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
 import db from "./firebase";
-import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot, DocumentData, setDoc, doc, addDoc } from 'firebase/firestore';
 import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
   const [resetKey, setResetKey] = useState(0);
-  
+  const [timerRecord, setTimerRecord] = useState(0);
+
   const generateRandomNumbers = (): Array<string | number> => {
     const numbers = new Set<number>(); // Use a Set to store unique numbers
     while (numbers.size < 15) {
@@ -35,8 +36,10 @@ function App() {
   
   useEffect(() => {
     if (isSolved()) {
+      const timerVal: number = timerRecord;
       setGameOver(true);
       shrinkTiles(true);
+      handleNewRecord(timerVal);
     }
   }, [tiles]);
   const handleTileClick = (clickedIndex: number) => {
@@ -158,8 +161,13 @@ function App() {
 
   const toggleRanking = () => {
     setShowRanking(!showRanking);
-    console.log(showRanking)
   }
+
+  // useEffect(() => {
+  //   if (gameOver) {
+  //     handleNewRecord(timerRecord);
+  //   }
+  // }, [gameOver, timerRecord]);
 
   useEffect(
     () => 
@@ -170,6 +178,21 @@ function App() {
     []
   );
 
+  const handleTimerUpdate = (timerValue: number) => {
+    setTimerRecord(timerValue);
+    console.log("here", timerValue)
+  }
+
+  const handleNewRecord = async (timerVal: number) => {
+    console.log("successful");
+    const name = prompt("(Want to save your record on the Leaderboard?) Enter your name: ");
+    if (name !== null){
+      const collectionRef = collection(db, "Leaderboard");
+      const payload = {Name: name, Score: timerVal};
+      await addDoc(collectionRef, payload);
+      console.log("set successful")
+    }
+  }
 
   return (
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
@@ -180,7 +203,7 @@ function App() {
         )}
         <div className='timerContainer'>
           <div className='timer'>
-            <CountingClock key={resetKey} gameOver={gameOver} />
+            <CountingClock key={resetKey} gameOver={gameOver} onTimerUpdate={handleTimerUpdate} />
           </div>
         </div>
         <div className='gameBoardContainer'>

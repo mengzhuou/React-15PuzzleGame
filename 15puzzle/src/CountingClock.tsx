@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 interface CountingClockProps {
-  gameOver: boolean; // Define the type for the gameOver prop
+  gameOver: boolean;
+  onTimerUpdate: (timerValue: number) => void;
 }
 
-const CountingClock: React.FC<CountingClockProps> = ({ gameOver }) => {
+const CountingClock: React.FC<CountingClockProps> = ({ gameOver, onTimerUpdate }) => {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
@@ -13,11 +14,15 @@ const CountingClock: React.FC<CountingClockProps> = ({ gameOver }) => {
     if (!gameOver) {
       intervalId = setInterval(() => {
         setSeconds(prevSeconds => prevSeconds + 1);
-      }, 1000); // Increment seconds every 1 second
+      }, 1000); 
     }
 
     return () => clearInterval(intervalId);
   }, [gameOver]);
+
+  useEffect(() => {
+    onTimerUpdate(seconds);
+  }, [onTimerUpdate, seconds]);
 
   return (
     <div>
