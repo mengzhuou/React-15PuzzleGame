@@ -168,9 +168,13 @@ function App() {
 
   useEffect(() => {
     // leaderboard is the name of the database collection
-    const unsubscribe = onSnapshot(collection(db, "Leaderboard"), (snapshot) =>
-      setLeaderboard(snapshot.docs.map((doc) => doc.data() as DocumentData))
-    );
+    const unsubscribe = onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
+      const sortedLeaderboard = snapshot.docs
+        .map((doc) => doc.data() as DocumentData)
+        .sort((a, b) => a.Score - b.Score);
+      
+      setLeaderboard(sortedLeaderboard);
+    });
 
     return () => unsubscribe(); // Cleanup on component unmount
   }, []);
@@ -225,6 +229,7 @@ function App() {
             <table>
               <thead>
                 <tr>
+                  <th>Ranking</th>
                   <th>Name</th>
                   <th>Score</th>
                 </tr>
@@ -232,6 +237,7 @@ function App() {
               <tbody>
                 {leaderboard.map((result, index) => (
                   <tr key={result.id || index}>
+                    <td>{index + 1}</td>
                     <td>{result.Name}</td>
                     <td>{result.Score}</td>
                   </tr>
