@@ -175,6 +175,17 @@ button .icon {
   overflow-y: auto;
 }
 
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.popup-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hiding scrollbar for IE, Edge and Firefox */
+.popup-content {
+scrollbar-width: none;  /* Firefox */
+-ms-overflow-style: none;  /* IE and Edge */
+}
+
 
 .close-btn {
   position: absolute;
@@ -261,7 +272,6 @@ tbody tr:hover {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  overflow: hidden;
 }
 
 .helperPopupContent {
@@ -277,6 +287,17 @@ tbody tr:hover {
   justify-content: center;
   position: relative;
   overflow-y: auto;
+}
+
+/* Hiding scrollbar for Chrome, Safari and Opera */
+.helperPopupContent::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hiding scrollbar for IE, Edge and Firefox */
+.helperPopupContent {
+scrollbar-width: none;  /* Firefox */
+-ms-overflow-style: none;  /* IE and Edge */
 }
 
 
