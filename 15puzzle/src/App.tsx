@@ -12,6 +12,11 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [timerRecord, setTimerRecord] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<DocumentData[]>([]);
+  const [showRanking, setShowRanking] = useState(false);
+  const [shrink, setShrink] = useState(false);
+  
+  const rowLength = 4; // Assuming it's a 4x4 grid
 
   const generateRandomNumbers = (): Array<string | number> => {
     const numbers = new Set<number>(); // Use a Set to store unique numbers
@@ -26,20 +31,18 @@ function App() {
   const initialTiles: Array<string | number> = generateRandomNumbers(); // Define the type for initialTiles
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
-  const [shrink, setShrink] = useState(false);
 
   const shrinkTiles = (isShrink: boolean) => {
     setShrink(isShrink);
   };
   
-  const rowLength = 4; // Assuming it's a 4x4 grid
   
   useEffect(() => {
     if (isSolved()) {
-      const timerVal: number = timerRecord;
+      // const timerVal: number = timerRecord;
       setGameOver(true);
       shrinkTiles(true);
-      handleNewRecord(timerVal);
+      // handleNewRecord(timerVal);
     }
   }, [tiles]);
   const handleTileClick = (clickedIndex: number) => {
@@ -155,19 +158,15 @@ function App() {
     setResetKey(prevKey => prevKey+1);
   };
 
-  const [leaderboard, setLeaderboard] = useState<DocumentData[]>([]);
-
-  const [showRanking, setShowRanking] = useState(false);
-
   const toggleRanking = () => {
     setShowRanking(!showRanking);
   }
 
-  // useEffect(() => {
-  //   if (gameOver) {
-  //     handleNewRecord(timerRecord);
-  //   }
-  // }, [gameOver, timerRecord]);
+  useEffect(() => {
+    if (gameOver) {
+      handleNewRecord(timerRecord);
+    }
+  }, [gameOver, timerRecord]);
 
   useEffect(
     () => 
@@ -180,17 +179,14 @@ function App() {
 
   const handleTimerUpdate = (timerValue: number) => {
     setTimerRecord(timerValue);
-    console.log("here", timerValue)
   }
 
   const handleNewRecord = async (timerVal: number) => {
-    console.log("successful");
     const name = prompt("(Want to save your record on the Leaderboard?) Enter your name: ");
     if (name !== null){
       const collectionRef = collection(db, "Leaderboard");
       const payload = {Name: name, Score: timerVal};
       await addDoc(collectionRef, payload);
-      console.log("set successful")
     }
   }
 
