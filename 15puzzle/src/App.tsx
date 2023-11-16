@@ -5,7 +5,8 @@ import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
 import db from "./firebase";
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, DocumentData } from 'firebase/firestore';
+import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
@@ -151,15 +152,24 @@ function App() {
     setResetKey(prevKey => prevKey+1);
   };
 
-  const [leaderboard, setLeaderboard] = useState([]);
+  const [leaderboard, setLeaderboard] = useState<DocumentData[]>([]);
+
+  const [showRanking, setShowRanking] = useState(false);
+
+  const toggleRanking = () => {
+    setShowRanking(!showRanking);
+    console.log(showRanking)
+  }
 
   useEffect(
     () => 
-    //leaderboard is name of the database collection
-    onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
-      console.log(snapshot.docs.map(doc => doc.data()));
-    })
+      //leaderboard is name of the database collection
+      onSnapshot(collection(db, "Leaderboard"), (snapshot) =>
+        setLeaderboard(snapshot.docs.map((doc) => doc.data() as DocumentData))
+      ),
+    []
   );
+
 
   return (
     <div className={`App ${gameOver ? 'game-over' : ''}`}>
@@ -183,7 +193,37 @@ function App() {
             <FontAwesomeIcon icon={faRedo} className="icon" />
             <span className="text">Restart</span>
           </button>
+          <button onClick={toggleRanking}>
+            <FontAwesomeIcon icon={faRankingStar} className="icon" />
+            <span className="text">Ranking</span>
+          </button>
         </div>
+      {showRanking && (
+        <div className="ranking-popup">
+          <div className="popup-content">
+            <button onClick={toggleRanking} className="close-btn">
+              X
+            </button>
+            <h2 className='leaderboardTitle'>Leaderboard</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.map((result, index) => (
+                  <tr key={result.id || index}>
+                    <td>{result.Name}</td>
+                    <td>{result.Score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
