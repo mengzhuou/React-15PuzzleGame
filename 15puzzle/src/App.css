@@ -187,6 +187,17 @@ button .icon {
   cursor: pointer;
 }
 
+.helpCloseBtn {
+  position: absolute;
+  top: -27px;
+  right: -9px;
+  background: transparent;
+  color: #000;
+  font-weight: bold;
+  font-size: 30px;
+  cursor: pointer;
+}
+
 .leaderboardTitle{
   position: absolute;
   top: 3%;
@@ -224,6 +235,51 @@ tbody tr {
 tbody tr:hover {
   background-color: rgb(199, 170, 154); /* Dark gray on hover */
 }
+
+.helpText{
+  color: #000000;
+}
+
+.helpTitle{
+  position: relative;
+  margin-top: 40px;
+  color: #000000;
+}
+
+.completedImg{
+  width: 200px;
+}
+
+.helperPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background to overlay on the main content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.helperPopupContent {
+  height: 70%;
+  width: 70%;
+  background: linear-gradient(to bottom, #e0a980, #f4f4f4); 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow-y: auto;
+}
+
+
 
 @media screen and (max-width: 520px){
   .timer{

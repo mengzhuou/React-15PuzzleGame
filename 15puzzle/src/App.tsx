@@ -3,10 +3,10 @@ import './App.css';
 import Tile from './Tile';
 import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo } from '@fortawesome/free-solid-svg-icons'; 
+import { faRankingStar,faCircleQuestion,faRedo } from '@fortawesome/free-solid-svg-icons';
 import db from "./firebase";
-import { collection, onSnapshot, DocumentData, setDoc, doc, addDoc } from 'firebase/firestore';
-import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
+import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
+import complete from './complete.png';
 
 function App() {
   const [gameOver, setGameOver] = useState(false);
@@ -15,6 +15,8 @@ function App() {
   const [leaderboard, setLeaderboard] = useState<DocumentData[]>([]);
   const [showRanking, setShowRanking] = useState(false);
   const [shrink, setShrink] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
+
   
   const rowLength = 4; // Assuming it's a 4x4 grid
 
@@ -160,6 +162,10 @@ function App() {
     setShowRanking(!showRanking);
   }
 
+  const toggleQuestion = () => {
+    setShowQuestion(!showQuestion);
+  }
+
   useEffect(() => {
     if (gameOver) {
       handleNewRecord(timerRecord);
@@ -218,6 +224,10 @@ function App() {
             <FontAwesomeIcon icon={faRankingStar} className="icon" />
             <span className="text">Ranking</span>
           </button>
+          <button onClick={toggleQuestion}>
+            <FontAwesomeIcon icon={faCircleQuestion} className="icon" />
+            <span className="text">Help</span>
+          </button>
         </div>
       {showRanking && (
         <div className="ranking-popup">
@@ -244,6 +254,21 @@ function App() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+      {showQuestion && (
+        <div className="helperPopup">
+          <div className="helperPopupContent">
+            <button onClick={toggleQuestion} className="helpCloseBtn">
+              X
+            </button>
+            <h2 className='helpTitle'>Help</h2>
+            <p className='helpText'>
+              <i><b>1.</b></i> One tile is missing, your goal is to arrange the tiles in ascending order by repeatedly sliding tiles into the empty space until reaching the configuration 1-2-3-4, 5-6-7-8, 9-10-11-12, 13-14-15-⬜.<br />
+              <i><b>2.</b></i> You can slide more than 1 tile at a time if what you clicked is on the same row or column with the empty tile.
+            </p>
+            <img className="completedImg" src={complete} alt='completed picture'/>
           </div>
         </div>
       )}
