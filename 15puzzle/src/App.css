@@ -255,6 +255,11 @@ tbody tr:hover {
   width: 200px;
 }
 
+
+.smallText{
+  font-size: 0.7em;
+}
+
 @media screen and (max-width: 520px){
   .close-btn {
     top: 10%;

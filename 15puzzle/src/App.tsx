@@ -272,7 +272,8 @@ function App() {
                 <tr>
                   <th>Rank</th>
                   <th>Name</th>
-                  <th>Score/sec</th>
+                  <th>Score<span className="smallText">/sec</span></th>
+
                 </tr>
               </thead>
               <tbody>
