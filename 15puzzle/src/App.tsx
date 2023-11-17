@@ -289,8 +289,8 @@ function App() {
         </div>
       )}
       {showQuestion && (
-        <div className="helperPopup">
-          <div className="helperPopupContent">
+        <div className="ranking-popup">
+          <div className="popup-content">
             <button onClick={toggleQuestion} className="close-btn">
               X
             </button>
@@ -299,7 +299,7 @@ function App() {
               <i><b>1.</b></i> Your goal is to arrange the tiles in ascending order by repeatedly sliding tiles into the empty space until reaching the configuration 1-2-3-4, 5-6-7-8, 9-10-11-12, 13-14-15-⬜.<br />
               <i><b>2.</b></i> You can slide more than 1 tile at a time if what you clicked is on the same row or column with the empty tile.
             </div>
-            <img className="completedImg" src={complete} alt='completed picture'/>
+            <img className="completedImg" src={complete} alt='completed'/>
           </div>
         </div>
       )}
