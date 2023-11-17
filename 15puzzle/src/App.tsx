@@ -197,7 +197,8 @@ function App() {
   }
 
   const handleNewRecord = async (timerVal: number) => {
-    const name = prompt("(Want to save your record on the Leaderboard?) Enter your name: ");
+    const name = prompt(`(Want to save your score <${timerRecord} seconds> to the Leaderboard?) Enter your name.`);
+
     if (name !== null){
       const collectionRef = collection(db, "Leaderboard");
       const payload = {Name: name, Score: timerVal};
@@ -239,10 +240,24 @@ function App() {
           <button 
             onClick={toggleSavedRecord} 
             disabled={!isSaved} 
-            style={{ backgroundColor: isSaved ? 'transparent' : 'grey' }}
           >
-            <FontAwesomeIcon icon={faFloppyDisk} className="icon" />
-            <span className="text">Save Score</span>
+            <FontAwesomeIcon 
+              icon={faFloppyDisk} 
+              className="icon" 
+              style={{ 
+                color: isSaved ? 'transparent' : '#666', 
+                cursor: isSaved ? 'pointer' : 'not-allowed' 
+              }}  
+            />
+            <span 
+              className="text" 
+              style={{ 
+                color: isSaved ? 'transparent' : '#666', 
+                cursor: isSaved ? 'pointer' : 'not-allowed'
+              }}
+            >
+              Save Score
+            </span>
           </button>
         </div>
       {showRanking && (
