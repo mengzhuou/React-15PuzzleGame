@@ -291,14 +291,14 @@ function App() {
       {showQuestion && (
         <div className="helperPopup">
           <div className="helperPopupContent">
-            <button onClick={toggleQuestion} className="helpCloseBtn">
+            <button onClick={toggleQuestion} className="close-btn">
               X
             </button>
-            <h2 className='helpTitle'>Help</h2>
-            <p className='helpText'>
+            <div className='helpTitle'>Help</div>
+            <div className='helpText'>
               <i><b>1.</b></i> Your goal is to arrange the tiles in ascending order by repeatedly sliding tiles into the empty space until reaching the configuration 1-2-3-4, 5-6-7-8, 9-10-11-12, 13-14-15-⬜.<br />
               <i><b>2.</b></i> You can slide more than 1 tile at a time if what you clicked is on the same row or column with the empty tile.
-            </p>
+            </div>
             <img className="completedImg" src={complete} alt='completed picture'/>
           </div>
         </div>

@@ -188,20 +188,9 @@ scrollbar-width: none;  /* Firefox */
 
 
 .close-btn {
-  position: absolute;
-  top: -18px;
-  right: 3px;
-  background: transparent;
-  color: #000;
-  font-weight: bold;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.helpCloseBtn {
-  position: absolute;
-  top: -27px;
-  right: -9px;
+  position: fixed;
+  top: 6%;
+  right: 9%;
   background: transparent;
   color: #000;
   font-weight: bold;
@@ -247,14 +236,19 @@ tbody tr:hover {
   background-color: rgb(199, 170, 154); /* Dark gray on hover */
 }
 
+
+
+
 .helpText{
   color: #000000;
 }
 
 .helpTitle{
-  position: relative;
-  margin-top: 40px;
+  position: absolute;
   color: #000000;
+  font-size: 30px;
+  font-weight: bold;
+  top: 2%;
 }
 
 .completedImg{
@@ -303,6 +297,10 @@ scrollbar-width: none;  /* Firefox */
 
 
 @media screen and (max-width: 520px){
+  .close-btn {
+    top: 10%;
+    right: 7%;
+  }
   .timer{
     padding-left: 10px;
     border-radius: 5px;
