@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Tile from './Tile';
 import CountingClock from './CountingClock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRankingStar,faCircleQuestion,faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faRankingStar, faCircleQuestion, faRedo, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import db from "./firebase";
 import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
 import complete from './complete.png';
@@ -16,6 +16,8 @@ function App() {
   const [showRanking, setShowRanking] = useState(false);
   const [shrink, setShrink] = useState(false);
   const [showQuestion, setShowQuestion] = useState(false);
+  //false means button is gray and cannot save record
+  const [isSaved, setIsSaved] = useState(false);
 
   
   const rowLength = 4; // Assuming it's a 4x4 grid
@@ -37,7 +39,6 @@ function App() {
   const shrinkTiles = (isShrink: boolean) => {
     setShrink(isShrink);
   };
-  
   
   useEffect(() => {
     if (isSolved()) {
@@ -146,7 +147,7 @@ function App() {
     winState.push(''); // Add the empty string to represent the empty slot
     const isWin = tiles.every((value, index) => value === winState[index]);
     if (isWin) {
-      setGameOver(true); // Set game over state if the puzzle is solved
+      setGameOver(true); 
       return true;
     }
     return false; 
@@ -154,10 +155,15 @@ function App() {
 
   const resetGame = () => {
     setGameOver(false); 
+    setIsSaved(false);
     setTiles(generateRandomNumbers());
     setResetKey(prevKey => prevKey+1);
   };
 
+  //if user did not save the record, this method will call the handleNewRecord function again
+  const toggleSavedRecord = () => {
+    handleNewRecord(timerRecord);
+  }
   const toggleRanking = () => {
     setShowRanking(!showRanking);
   }
@@ -168,6 +174,7 @@ function App() {
 
   useEffect(() => {
     if (gameOver) {
+      setIsSaved(true);
       handleNewRecord(timerRecord);
     }
   }, [gameOver, timerRecord]);
@@ -195,6 +202,7 @@ function App() {
       const collectionRef = collection(db, "Leaderboard");
       const payload = {Name: name, Score: timerVal};
       await addDoc(collectionRef, payload);
+      setIsSaved(false);//record is already saved
     }
   }
 
@@ -228,6 +236,14 @@ function App() {
             <FontAwesomeIcon icon={faCircleQuestion} className="icon" />
             <span className="text">Help</span>
           </button>
+          <button 
+            onClick={toggleSavedRecord} 
+            disabled={!isSaved} 
+            style={{ backgroundColor: isSaved ? 'transparent' : 'grey' }}
+          >
+            <FontAwesomeIcon icon={faFloppyDisk} className="icon" />
+            <span className="text">Save Score</span>
+          </button>
         </div>
       {showRanking && (
         <div className="ranking-popup">
@@ -239,9 +255,9 @@ function App() {
             <table>
               <thead>
                 <tr>
-                  <th>Ranking</th>
+                  <th>Rank</th>
                   <th>Name</th>
-                  <th>Score</th>
+                  <th>Score/sec</th>
                 </tr>
               </thead>
               <tbody>
@@ -265,7 +281,7 @@ function App() {
             </button>
             <h2 className='helpTitle'>Help</h2>
             <p className='helpText'>
-              <i><b>1.</b></i> One tile is missing, your goal is to arrange the tiles in ascending order by repeatedly sliding tiles into the empty space until reaching the configuration 1-2-3-4, 5-6-7-8, 9-10-11-12, 13-14-15-⬜.<br />
+              <i><b>1.</b></i> Your goal is to arrange the tiles in ascending order by repeatedly sliding tiles into the empty space until reaching the configuration 1-2-3-4, 5-6-7-8, 9-10-11-12, 13-14-15-⬜.<br />
               <i><b>2.</b></i> You can slide more than 1 tile at a time if what you clicked is on the same row or column with the empty tile.
             </p>
             <img className="completedImg" src={complete} alt='completed picture'/>
