@@ -102,7 +102,7 @@ class App extends Component<{}, AppState> {
   generateSolvablePuzzle = () => {
     const solvedPuzzle: Array<string | number> = Array.from({ length: 15 }, (_, i) => i + 1);
     solvedPuzzle.push('');
-    const shuffleCount = 300; // the number of random swaps
+    const shuffleCount = 400; // the number of random swaps
     for (let i = 0; i < shuffleCount; i++) {
       const emptyIndex = solvedPuzzle.indexOf('');
       const neighbors = this.getNeighbors(emptyIndex);
