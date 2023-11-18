@@ -53,8 +53,6 @@ class App extends Component<{}, AppState> {
   }
   componentDidMount() {
     const initialTiles = this.generateSolvablePuzzle();
-  
-    console.log("im here")
     // leaderboard is the name of the database collection
     onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
       const sortedLeaderboard = snapshot.docs
@@ -68,11 +66,9 @@ class App extends Component<{}, AppState> {
 
   handleGameOverLogic() {
     //since game over is true, player can save record
-    const { gameOver, timerRecord } = this.state;
-    if (gameOver) {
-      this.setState({ canbeSaved: true });
-      this.handleNewRecord(timerRecord);
-    }
+    const { timerRecord } = this.state;
+    this.setState({ canbeSaved: true });
+    this.handleNewRecord(timerRecord);
   }
 
   handleNewRecord = async (timerVal: number) => {
@@ -87,12 +83,7 @@ class App extends Component<{}, AppState> {
 
   
   isSolved = () => {
-    const { tiles, gameOver } = this.state;
-
-    if (gameOver) {
-      // If the game is already over, return true
-      return true;
-    }
+    const { tiles } = this.state;
     const numbers = new Set<number>();
   
     for (let i = 1; i <= 15; i++) {
@@ -176,11 +167,13 @@ class App extends Component<{}, AppState> {
         this.colSwap(colArray, clickedIndex, zeroIndex);
       }
     }
-    if (this.isSolved()) {
-      this.setState({ gameOver: true, shrink: true }, () => {
-        this.handleGameOverLogic();
-      });
-    }
+    this.setState({ }, () => {
+      if (this.isSolved()) {
+        this.setState({ gameOver: true, shrink: true }, () => {
+          this.handleGameOverLogic();
+        });
+      }
+    });
   };
 
   colSwap = (arr:any, clickedIndex:number, zeroIndex:number) => {
