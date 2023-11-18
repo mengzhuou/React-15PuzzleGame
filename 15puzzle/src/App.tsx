@@ -22,17 +22,40 @@ function App() {
   
   const rowLength = 4; // Assuming it's a 4x4 grid
 
-  const generateRandomNumbers = (): Array<string | number> => {
-    const numbers = new Set<number>(); // Use a Set to store unique numbers
-    while (numbers.size < 15) {
-      const randomNumber = Math.floor(Math.random() * 15) + 1; // Generate a random number between 1 and 15
-      numbers.add(randomNumber);
+  const generateSolvablePuzzle = (): Array<string | number> => {
+    const solvedPuzzle: Array<string | number> = Array.from({ length: 15 }, (_, i) => i + 1);
+    solvedPuzzle.push('');
+    const shuffleCount = 300; // the number of random swaps
+    for (let i = 0; i < shuffleCount; i++) {
+      const emptyIndex = solvedPuzzle.indexOf('');
+      const neighbors = getNeighbors(emptyIndex);
+      const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+      [solvedPuzzle[emptyIndex], solvedPuzzle[randomNeighbor]] = [solvedPuzzle[randomNeighbor], solvedPuzzle[emptyIndex]];
     }
-    const randomTiles: Array<string | number> = Array.from(numbers);
-    randomTiles.push(''); // Add the empty string to represent the empty slot
-    return randomTiles;
+  
+    return solvedPuzzle;
   };
-  const initialTiles: Array<string | number> = generateRandomNumbers(); // Define the type for initialTiles
+  
+  const getNeighbors = (index: number): number[] => {
+    const neighbors = [];
+  
+    // Check top neighbor
+    if (index >= rowLength) neighbors.push(index - rowLength);
+  
+    // Check bottom neighbor
+    if (index < 15 - rowLength) neighbors.push(index + rowLength);
+  
+    // Check left neighbor
+    if (index % rowLength !== 0) neighbors.push(index - 1);
+  
+    // Check right neighbor
+    if ((index + 1) % rowLength !== 0) neighbors.push(index + 1);
+  
+    return neighbors;
+  };
+  
+  const initialTiles: Array<string | number> = generateSolvablePuzzle(); // Define the type for initialTiles
+
 
   const [tiles, setTiles] = useState<Array<string | number>>(initialTiles);
 
@@ -156,7 +179,7 @@ function App() {
   const resetGame = () => {
     setGameOver(false); 
     setIsSaved(false);
-    setTiles(generateRandomNumbers());
+    setTiles(generateSolvablePuzzle());
     setResetKey(prevKey => prevKey+1);
   };
 
