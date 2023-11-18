@@ -64,11 +64,9 @@ class App extends Component<{}, AppState> {
     this.setState({ tiles: initialTiles });
   }
 
+  //since game over is true, player can save record
   handleGameOverLogic() {
-    //since game over is true, player can save record
-    const { timerRecord } = this.state;
     this.setState({ canbeSaved: true });
-    this.handleNewRecord(timerRecord);
   }
 
   handleNewRecord = async (timerVal: number) => {
