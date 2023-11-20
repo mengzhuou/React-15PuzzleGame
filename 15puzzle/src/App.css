@@ -164,7 +164,7 @@ button .icon {
   height: 70%;
   width: 70%;
   background: linear-gradient(to bottom, #e0a980, #f4f4f4); 
-  padding: 40px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   display: flex;
