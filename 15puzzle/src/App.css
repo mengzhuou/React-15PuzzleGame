@@ -184,9 +184,9 @@ button .icon {
 
 
 .close-btn {
-  position: fixed;
-  top: 9%;
-  right: 4%;
+  position: absolute;
+  top: -14px;
+  right: -3px;
   background: transparent;
   color: #000;
   font-weight: bold;
@@ -298,10 +298,6 @@ footer .footer-find-me a:hover {
 }
 
 @media screen and (max-width: 520px){
-  .close-btn {
-    top: 10%;
-    right: 7%;
-  }
   .timer{
     padding-left: 10px;
     border-radius: 5px;

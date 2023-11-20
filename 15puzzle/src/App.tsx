@@ -71,10 +71,10 @@ class App extends Component<{}, AppState> {
 
   handleNewRecord = async (timerVal: number) => {
     const name = prompt(`(Want to save your score <${this.state.timerRecord} seconds> to the Leaderboard?) Enter your name.`);
-    const isNameValid = name === '' || name === null || name.length >= 25;
+    const isNameValid = name === '' || name === null || name.length >= 20;
   
     if (isNameValid) {
-      alert(`Please make sure: 0 < length of name < 25.`);
+      alert(`Please make sure: 0 < length of name < 20.`);
     } else {
       const collectionRef = collection(db, "Leaderboard");
       const payload = { Name: name, Score: timerVal };
@@ -251,17 +251,20 @@ class App extends Component<{}, AppState> {
     this.handleNewRecord(this.state.timerRecord);
   };
   
-  toggleRanking = () => {
+  toggleRanking = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent the default button behavior
     this.setState((prevState) => ({
       showRanking: !prevState.showRanking,
     }));
   };
   
-  toggleQuestion = () => {
+  toggleQuestion = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent the default button behavior
     this.setState((prevState) => ({
       showQuestion: !prevState.showQuestion,
     }));
   };
+  
   
 
   handleTimerUpdate = (timerValue: number) => {
