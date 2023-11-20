@@ -174,7 +174,7 @@ button .icon {
   position: relative;
   scrollbar-width: none;  /* Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
-  overflow: auto;
+  overflow-y: auto;
 }
 
 /* Hiding scrollbar for Chrome, Safari and Opera */
