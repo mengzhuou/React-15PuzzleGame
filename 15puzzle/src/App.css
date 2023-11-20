@@ -164,7 +164,7 @@ button .icon {
   height: 70%;
   width: 70%;
   background: linear-gradient(to bottom, #e0a980, #f4f4f4); 
-  padding: 20px;
+  padding: 40px;
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -172,7 +172,9 @@ button .icon {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow-y: auto;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  overflow: auto;
 }
 
 /* Hiding scrollbar for Chrome, Safari and Opera */
@@ -180,17 +182,11 @@ button .icon {
   display: none;
 }
 
-/* Hiding scrollbar for IE, Edge and Firefox */
-.popup-content {
-scrollbar-width: none;  /* Firefox */
--ms-overflow-style: none;  /* IE and Edge */
-}
-
 
 .close-btn {
   position: fixed;
-  top: 6%;
-  right: 9%;
+  top: 9%;
+  right: 4%;
   background: transparent;
   color: #000;
   font-weight: bold;

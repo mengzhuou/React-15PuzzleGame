@@ -71,7 +71,7 @@ class App extends Component<{}, AppState> {
 
   handleNewRecord = async (timerVal: number) => {
     const name = prompt(`(Want to save your score <${this.state.timerRecord} seconds> to the Leaderboard?) Enter your name.`);
-    const isNameValid = name == '' || name == null || name.length >= 25;
+    const isNameValid = name === '' || name === null || name.length >= 25;
   
     if (isNameValid) {
       alert(`Please make sure: 0 < length of name < 25.`);
