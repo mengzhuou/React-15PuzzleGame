@@ -71,13 +71,18 @@ class App extends Component<{}, AppState> {
 
   handleNewRecord = async (timerVal: number) => {
     const name = prompt(`(Want to save your score <${this.state.timerRecord} seconds> to the Leaderboard?) Enter your name.`);
-    if (name !== null){
+    const isNameValid = name == '' || name == null || name.length >= 25;
+  
+    if (isNameValid) {
+      alert(`Please make sure: 0 < length of name < 25.`);
+    } else {
       const collectionRef = collection(db, "Leaderboard");
-      const payload = {Name: name, Score: timerVal};
+      const payload = { Name: name, Score: timerVal };
       await addDoc(collectionRef, payload);
       this.setState({ canbeSaved: false }); // record is already saved
     }
   };
+  
 
   
   isSolved = () => {
