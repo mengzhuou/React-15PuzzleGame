@@ -208,7 +208,6 @@ table {
   border-collapse: collapse;
   margin-top: 20px;
   color: #000000;
-  table-layout: fixed;
 }
 
 
@@ -219,18 +218,26 @@ thead {
 }
 
 thead th, tbody td {
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
   text-align: left;
 }
 
-tbody {
-  border-top: 2px solid #000000; /* Add a border at the top of tbody */
+tbody td:nth-child(1) {
+  width: 15%;
 }
 tbody td:nth-child(2) {
+  width: 45%;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 10ch; 
   white-space: pre-line;
+}
+tbody td:nth-child(3) {
+  width: 10%;
+}
+
+tbody {
+  border-top: 2px solid #000000; /* Add a border at the top of tbody */
 }
 
 tbody tr {
@@ -262,9 +269,8 @@ tbody tr:hover {
 
 
 .smallText{
-  font-size: 0.7em;
+  font-size: 0.5em;
 }
-
 
 footer {
   background-color: black;
