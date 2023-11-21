@@ -20,6 +20,9 @@ interface AppState {
   canbeSaved: boolean;
   rowLength: number;
   tiles: Array<string | number>;
+  errorMessage: string;
+  isError: boolean;
+  initialDataLoaded: boolean;
 }
 
 class App extends Component<{}, AppState> {
@@ -37,6 +40,9 @@ class App extends Component<{}, AppState> {
       canbeSaved: false,
       rowLength: 4,
       tiles: [],
+      errorMessage: "",
+      isError: false,
+      initialDataLoaded: false
     };
     this.handleTileClick = this.handleTileClick.bind(this);
     this.colSwap = this.colSwap.bind(this);
@@ -53,16 +59,34 @@ class App extends Component<{}, AppState> {
   }
   componentDidMount() {
     const initialTiles = this.generateSolvablePuzzle();
-    // leaderboard is the name of the database collection
-    onSnapshot(collection(db, "Leaderboard"), (snapshot) => {
-      const sortedLeaderboard = snapshot.docs
-      .map((doc) => doc.data() as DocumentData)
-      .sort((a, b) => a.Score - b.Score);
-      
-      this.setState({ leaderboard: sortedLeaderboard });
-    });
     this.setState({ tiles: initialTiles });
+    if (!this.state.initialDataLoaded) {
+      this.loadInitialData();
+    }
   }
+  async loadInitialData() {  
+
+
+    // leaderboard is the name of the database collection
+    const leaderboardCollection = collection(db, "Leaderboard");
+    const unsubscribe = onSnapshot(
+      leaderboardCollection,
+      (snapshot) => {
+        const sortedLeaderboard = snapshot.docs
+          .map((doc) => doc.data() as DocumentData)
+          .sort((a, b) => a.Score - b.Score);
+  
+        this.setState({ leaderboard: sortedLeaderboard, isError: false, initialDataLoaded: true });
+      },
+      (error) => {
+        const errorMes =
+          "Oops, something is wrong with the server and I'm fixing it, please come back tomorrow!";
+        this.setState({ errorMessage: errorMes, isError: true });
+      }
+    );
+  }
+    
+  
 
   //since game over is true, player can save record
   handleGameOverLogic() {
@@ -79,7 +103,7 @@ class App extends Component<{}, AppState> {
         const collectionRef = collection(db, "Leaderboard");
         const payload = { Name: name, Score: timerVal };
         await addDoc(collectionRef, payload);
-        this.setState({ canbeSaved: false }); // record is already saved
+        this.setState({ canbeSaved: false, initialDataLoaded: false }); // record is already saved
       }
     }
   };
@@ -244,6 +268,7 @@ class App extends Component<{}, AppState> {
       canbeSaved: false,
       tiles: this.generateSolvablePuzzle(),
       resetKey: prevState.resetKey + 1,
+      initialDataLoaded: false
     }));
   };
   
@@ -271,9 +296,9 @@ class App extends Component<{}, AppState> {
   handleTimerUpdate = (timerValue: number) => {
     this.setState({ timerRecord: timerValue });
   }
-
+  
   render() {
-    const { gameOver, resetKey, showRanking, showQuestion, leaderboard, canbeSaved } = this.state;
+    const { gameOver, resetKey, showRanking, showQuestion, leaderboard, canbeSaved, isError } = this.state;
 
     return (
       <div className={`App ${gameOver ? 'game-over' : ''}`}>
@@ -328,25 +353,31 @@ class App extends Component<{}, AppState> {
                 X
               </button>
               <h2 className='leaderboardTitle'>Leaderboard</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Score<span className="smallText">/sec</span></th>
+              {!isError? (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th>Name</th>
+                      <th>Score<span className="smallText">/sec</span></th>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  {leaderboard.map((result, index) => (
-                    <tr key={result.id || index}>
-                      <td>{index + 1}</td>
-                      <td>{result.Name}</td>
-                      <td>{result.Score}</td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {leaderboard.map((result, index) => (
+                      <tr key={result.id || index}>
+                        <td>{index + 1}</td>
+                        <td>{result.Name}</td>
+                        <td>{result.Score}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                ) : (
+                <div className="error-message">
+                  {this.state.errorMessage}
+                </div>
+              )}
             </div>
           </div>
         )}
