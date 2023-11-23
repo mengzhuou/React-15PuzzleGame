@@ -333,12 +333,11 @@ footer .footer-find-me a:hover {
 }
 
 .paused-text {
-  font-size: 24px;
-  color: #333;
-  text-align: center;
-  background: #ddd;
-  padding: 20px;
-  border-radius: 5px;
+  
+  box-sizing: border-box;
+  color: #000080;
+  margin: 0;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 520px){

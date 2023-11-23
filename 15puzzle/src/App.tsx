@@ -313,7 +313,8 @@ class App extends Component<{}, AppState> {
           {gameOver && <p className="gameOverText">Well Done!</p>}
           <div className="timerContainer">
             <div className="timer">
-              <CountingClock key={resetKey} gameOver={gameOver} onTimerUpdate={this.handleTimerUpdate} />
+              <CountingClock key={resetKey} gameOver={gameOver} onTimerUpdate={this.handleTimerUpdate} paused={paused} />
+
             </div>
           </div>
           <div className="gameBoardContainer">
