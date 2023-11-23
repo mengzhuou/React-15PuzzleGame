@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRankingStar, faCircleQuestion, faRedo, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faRankingStar, faCircleQuestion, faRedo, faFloppyDisk, faPause } from '@fortawesome/free-solid-svg-icons';
 import { collection, onSnapshot, DocumentData, addDoc } from 'firebase/firestore';
 import Tile from './Tile';
 import CountingClock from './CountingClock';
@@ -23,6 +23,7 @@ interface AppState {
   errorMessage: string;
   isError: boolean;
   initialDataLoaded: boolean;
+  paused: boolean;
 }
 
 class App extends Component<{}, AppState> {
@@ -42,7 +43,8 @@ class App extends Component<{}, AppState> {
       tiles: [],
       errorMessage: "",
       isError: false,
-      initialDataLoaded: false
+      initialDataLoaded: false,
+      paused: false,
     };
     this.handleTileClick = this.handleTileClick.bind(this);
     this.colSwap = this.colSwap.bind(this);
@@ -290,15 +292,19 @@ class App extends Component<{}, AppState> {
       showQuestion: !prevState.showQuestion,
     }));
   };
-  
-  
+
+  togglePause = () => {
+    this.setState((prevState) => ({
+      paused: !prevState.paused,
+    }));
+  };
 
   handleTimerUpdate = (timerValue: number) => {
     this.setState({ timerRecord: timerValue });
   }
   
   render() {
-    const { gameOver, resetKey, showRanking, showQuestion, leaderboard, canbeSaved, isError } = this.state;
+    const { gameOver, resetKey, showRanking, showQuestion, leaderboard, canbeSaved, isError, paused } = this.state;
 
     return (
       <div className={`App ${gameOver ? 'game-over' : ''}`}>
@@ -317,6 +323,11 @@ class App extends Component<{}, AppState> {
             <button onClick={this.resetGame}>
               <FontAwesomeIcon icon={faRedo} className="icon" />
               <span className="text">Restart</span>
+            </button>
+            <button onClick={this.togglePause}>
+              <FontAwesomeIcon icon={faPause} className="icon" />
+              <i className={`fa-solid ${paused ? 'fa-play' : 'fa-pause'}`}></i>
+              <span className="text">{paused ? 'Resume' : 'Pause'}</span>
             </button>
             <button onClick={this.toggleRanking}>
               <FontAwesomeIcon icon={faRankingStar} className="icon" />
@@ -346,6 +357,11 @@ class App extends Component<{}, AppState> {
               </span>
             </button>
           </div>
+          {paused && (
+            <div className="paused-overlay" onClick={this.togglePause}>
+              <div className="paused-text">Paused, click to resume</div>
+            </div>
+          )}
           {showRanking && (
           <div className="ranking-popup">
             <div className="popup-content">
