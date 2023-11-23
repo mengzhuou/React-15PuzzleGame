@@ -325,10 +325,23 @@ class App extends Component<{}, AppState> {
               <FontAwesomeIcon icon={faRedo} className="icon" />
               <span className="text">Restart</span>
             </button>
-            <button onClick={this.togglePause}>
-              <FontAwesomeIcon icon={faPause} className="icon" />
+            <button onClick={this.togglePause} disabled={gameOver}>
+              <FontAwesomeIcon 
+                icon={faPause} 
+                className="icon"
+                style={{
+                  color: gameOver ? '#666' : '#693434',
+                  cursor: gameOver ? 'not-allowed' : 'pointer' ,
+                }}
+              />
               <i className={`fa-solid ${paused ? 'fa-play' : 'fa-pause'}`}></i>
-              <span className="text">{paused ? 'Resume' : 'Pause'}</span>
+              <span 
+                className="text"
+                style={{
+                  color: gameOver ? '#666' : '#693434',
+                  cursor: gameOver ? 'not-allowed' : 'pointer' ,
+                }}
+                >{paused ? 'Resume' : 'Pause'}</span>
             </button>
             <button onClick={this.toggleRanking}>
               <FontAwesomeIcon icon={faRankingStar} className="icon" />
