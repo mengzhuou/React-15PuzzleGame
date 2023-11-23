@@ -360,7 +360,7 @@ class App extends Component<{}, AppState> {
           </div>
           {paused && (
             <div className="paused-overlay" onClick={this.togglePause}>
-              <div className="paused-text">Paused, click to resume</div>
+              <div className="paused-text">Paused <span className='resumeText'>Click to resume</span></div>
             </div>
           )}
           {showRanking && (
